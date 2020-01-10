@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card col-4 m-auto p-5 text-center">
+        <h1 class="text-center m-5">TODOS</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+
+            {% for field in signup_form %}
+                <div class="form-group">
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-outline-primary btn-block">회원가입</button>
+        </form>
+        <hr>
+        <a href="{% url 'login' %}" class="">로그인</a>
+
+
+    </div>
+
+{% endblock %}
