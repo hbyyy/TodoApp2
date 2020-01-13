@@ -8,7 +8,13 @@
 
             {% for field in signup_form %}
                 <div class="form-group">
+
                     {{ field }}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    {% endif %}
                 </div>
             {% endfor %}
             <button type="submit" class="btn btn-outline-primary btn-block">회원가입</button>
