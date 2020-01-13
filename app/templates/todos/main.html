@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container col-10 ml-auto mr-auto">
+        <h1 class="text-center m-5">TODOs</h1>
+        <div class="d-flex flex-row justify-content-around">
+            {% for todo in request.user.todo_set.all %}
+                <div>{{ todo.content }}</div>
+                <div>{{ todo.craeted_date }}</div>
+                <div>{{ todo.is_done }}</div>
+            {% endfor %}
+        </div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col">
+                    <label for="content" class="">content</label>
+                </div>
+                <div class="col-10">
+                    <input id="content" type="text" class="form-control" name="content">
+                </div>
+
+                <div class="col">
+                    <button type="submit" class="form-control">작성</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
