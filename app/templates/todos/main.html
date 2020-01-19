@@ -1,29 +1,63 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block header %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+{% endblock %}
 {% block content %}
     <div class="container col-10 ml-auto mr-auto">
         <h1 class="text-center m-5">TODOs</h1>
-        <div class="d-flex flex-row justify-content-around">
-            {% for todo in request.user.todo_set.all %}
-                <div>{{ todo.content }}</div>
-                <div>{{ todo.craeted_date }}</div>
-                <div>{{ todo.is_done }}</div>
-            {% endfor %}
-        </div>
-        <form action="" method="post">
+        <form action="{% url 'todos:todo-create' %}" method="post">
             {% csrf_token %}
+            {#            <div class="form-row">#}
+            {#                <div class="col-1 text-center">#}
+            {#                    <label for="Content" class="col-form-label col-form-label-lg">할일</label>#}
+            {#                </div>#}
+            {#                <div class="col-8">#}
+            {#                    <input id="Content" type="text" class="form-control" name="content">#}
+            {#                </div>#}
+            {#                <div class="col-1">#}
+            {#                    <select class="custom-select" name="" id="PriorityChoice">#}
+            {#                        <option selected>선택</option>#}
+            {#                        <option value="HI">높음</option>#}
+            {#                        <option value="MD">보통</option>#}
+            {#                        <option value="LO">낮음</option>#}
+            {#                    </select>#}
+            {#                </div>#}
+            {#                <div class="col-2">#}
+            {#                    <button type="submit" class="btn btn-primary col">작성</button>#}
+            {#                </div>#}
+            {#            </div>#}
             <div class="form-row">
-                <div class="col">
-                    <label for="content" class="">content</label>
+                <div class="col-1 text-center">
+                    <label for="id_content" class="col-form-label col-form-label-lg">할일</label>
                 </div>
-                <div class="col-10">
-                    <input id="content" type="text" class="form-control" name="content">
+                <div class="col-7">
+                    {{ form.content }}
                 </div>
-
-                <div class="col">
-                    <button type="submit" class="form-control">작성</button>
+                <div class="col-2">
+                    {{ form.priority }}
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-primary col">작성</button>
                 </div>
             </div>
         </form>
+        <div class="d-flex align-items-baseline mt-3 mb-3">
+            <h2 class="d-inline col-2">오늘 할 일</h2>
+            <span class="todo-time text-secondary">{{ time | date:"Y년 n월 j일" }}</span>
+        </div>
+        {% for todo in todos %}
+            <div class="d-flex align-items-baseline mb-3 mt-3">
+                <div class="col-1 text-center">
+                    <span class="todo-count">{{ forloop.counter}}</span>
+                </div>
+                <div class="col-7">
+                    <p class="todo-content d-inline">{{ todo.content }}</p>
+                    <span class="todo-time text-secondary">{{ todo.created_date | date:"A g시 i분" }}</span>
+                </div>
+
+            </div>
+            <hr>
+        {% endfor %}
     </div>
 {% endblock %}

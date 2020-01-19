@@ -1,15 +1,14 @@
 from django.db import models
 
-
 # Create your models here.
 from members.models import User
 
 
 class Todo(models.Model):
     PRIORITY_CHOICE = (
-        ('HI', 'high'),
+        ('LO', 'low'),
         ('MD', 'medium'),
-        ('LO', 'low')
+        ('HI', 'high')
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()

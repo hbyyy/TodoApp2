@@ -1,0 +1,12 @@
+p.todo-content {
+    font-size: 1.5rem;
+}
+
+span.todo-time{
+    font-size: 0.7rem;
+}
+
+span.todo-count{
+    font-size: 1.2rem;
+    font-weight: bold;
+}

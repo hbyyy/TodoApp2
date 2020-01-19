@@ -13,7 +13,7 @@ def login_view(request):
         if form.is_valid():
             user = form.authenticate(request)
             login(request, user)
-            return redirect('todos:todolist')
+            return redirect('todos:todo-list')
     else:
         form = LoginForm()
     context = {
