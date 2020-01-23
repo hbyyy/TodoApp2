@@ -1,8 +1,8 @@
 import json
 import os
-import requests
 from urllib.parse import urlunparse, urlparse, urlencode
 
+import requests
 
 from config.settings import BASE_DIR
 
@@ -23,6 +23,20 @@ def naver_login_url(client_id, redirect_url, state):
     url = '{base}?{query}'.format(
         base=base_url,
         query='&'.join([f'{key}={value}' for key, value in url_params.items()])
+    )
+    return url
+
+
+def facebook_login_url(client_id, redirect_url, state):
+    base_url = 'https://www.facebook.com/v5.0/dialog/oauth?'
+    query = {
+        'client_id': client_id,
+        'redirect_uri': redirect_url,
+        'state': state,
+    }
+    url = '{base}{query}'.format(
+        base=base_url,
+        query='&'.join([f'{key}={value}' for key, value in query.items()])
     )
     return url
 
@@ -48,4 +62,30 @@ def naver_token_request(client_id, client_secret_key, code, state):
     response = requests.get(profile_api_request_url, headers={
         'Authorization': f'Bearer {access_token}'
     })
+    return response
+
+
+def facebook_token_request(client_id, client_secret_key, redirect_uri, code):
+    base_url = 'https://graph.facebook.com/v5.0/oauth/access_token?'
+    params = {
+        'client_id': client_id,
+        'redirect_uri': redirect_uri,
+        'client_secret': client_secret_key,
+        'code': code,
+    }
+    token_request_url = '{base}{query}'.format(
+        base=base_url,
+        query='&'.join([f'{key}={value}' for key, value in params.items()])
+    )
+
+    response = requests.get(token_request_url)
+
+    access_token = response.json()['access_token']
+    base_url = 'https://graph.facebook.com/me?'
+    params = {
+        'field': 'id,name',
+        'access_token': access_token,
+    }
+
+    response = requests.get(base_url, params=params)
     return response
