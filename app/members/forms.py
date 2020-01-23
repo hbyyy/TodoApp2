@@ -73,6 +73,6 @@ class SignupForm(forms.ModelForm):
         username_check = User.objects.filter(username=self.cleaned_data['username']).exists()
 
         if username_check is True:
-            raise forms.ValidationError('이미 있는 아이디입니다')
+            raise forms.ValidationError('이미 존재하는 아이디입니다')
         else:
             return self.cleaned_data['username']

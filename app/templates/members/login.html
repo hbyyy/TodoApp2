@@ -1,20 +1,31 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block header %}
+    <link rel="stylesheet" href="{% static 'css/startpage.css' %}">
+{% endblock %}
 {% block content %}
-    <div class="card col-4 m-auto p-5 text-center">
-        <h1 class="text-center m-5">TODOS</h1>
-        <form action="" method="POST">
-            {% csrf_token %}
+    <div class="lg sg">
+        <div class="card col-lg-4 col-md-6 col-sm-8 m-auto p-5 text-center">
+            <h1 class="text-center m-5">TODOS</h1>
+            <a href="{{ request_url }}" class="btn btn-outline-success">네이버로 로그인</a>
+            <hr>
+            <form action="" method="POST">
+                {% csrf_token %}
 
-            {% for field in login_form %}
-                <div class="form-group">
-                    {{ field }}
-                </div>
-            {% endfor %}
-            <button type="submit" class="btn btn-outline-primary btn-block">로그인</button>
-        </form>
-        <a href="{% url 'members:signup' %}" class="btn btn-primary mt-3">회원가입</a>
+                {% for field in login_form %}
+                    <div class="form-group">
+                        {{ field }}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <p class="text-danger mt-1">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-outline-primary btn-block">로그인</button>
+            </form>
+            <a href="{% url 'members:signup' %}" class="btn btn-primary mt-3">회원가입</a>
 
+        </div>
     </div>
-
 {% endblock %}
