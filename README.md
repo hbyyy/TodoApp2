@@ -1,20 +1,44 @@
-## ToDO리스트 만들기
+
+# TODOS
+
+ ### 기능
+
+- 사용자 계정 생성
+  - naver, facebook 회원가입, 로그인
+
+- Todo 리스트 작성, 중요도 선택 가능
 
 
 
-1. login을 구현하여 여러 유저가 사용할 수 있도록 구현
-   1. user -> id, password, name
-2. todo
-   1. todo 내용, created_date 내용을 출력, 세부 내용이 있다면 보여줌
-   2. edit 버튼 
-      1. edit을 누르면 편집 창으로 이동해 세부적인 내용 추가 가능
-      2. priority 추가 (높음 : 진한 하늘색 중간: 하늘색 낮음: 하얀색)
-      3. cd ..
-      4. delete 버튼 추가
-         1. 누르면 삭제
-   3. done 버튼
-      1. 선택시 todo내용에 취소선 추가, 세부내용 숨김, 버튼색 변환
-      2. 취소시 내용에 취소선 없앰, 세부내용 다시 출력
-   4. logout
-      1. 클릭시 로그인 화면으로 돌아간다.
+### Requirements
+
+- python version: >3.7
+
+- secret JSON file
+
+  - ```
+    {
+      "NAVER_CLIENT_ID": "",
+      "NAVER_CLIENT_SECRET_KEY": "",
+      "FACEBOOK_CLIENT_ID": "",
+      "FACEBOOK_CLIENT_SECRET_KEY": "",
+      "POSTGRES_DB_PASSWORD": "",
+      "DJANGO_SECRET_KEY": ""
+    }
+    
+    ```
+
+  - 경로 : `~/Todoapp2/app/<secret.json FILE>`
+
+
+
+### Installation
+
+```requirements.txt```
+
+
+
+
+
+
 
