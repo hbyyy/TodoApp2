@@ -7,7 +7,8 @@
     <div class="lg sg">
         <div class="card col-lg-4 col-md-6 col-sm-8 m-auto p-5 text-center">
             <h1 class="text-center m-5">TODOS</h1>
-            <a href="{{ request_url }}" class="btn btn-outline-success">네이버로 로그인</a>
+            <a href="{{ facebook_request_url }}" class="btn btn-outline-primary mb-3">페이스북으로 로그인</a>
+            <a href="{{ naver_request_url }}" class="btn btn-outline-success">네이버로 로그인</a>
             <hr>
             <form action="" method="POST">
                 {% csrf_token %}

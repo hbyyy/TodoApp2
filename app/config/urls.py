@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from members.views import login_view, naver_login_view
+from members.views import login_view, naver_login_view, facebook_login_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', login_view, name='login'),
     path('naver-login', naver_login_view, name='naver_login'),
+    path('facebook-login', facebook_login_view, name='facebook_login'),
     path('members/', include('members.urls')),
     path('todos/', include('todos.urls'))
 ]

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from members.forms import LoginForm, SignupForm
 from members.models import User
-from members.oauth import get_secret, naver_login_url, naver_token_request
+from members.oauth import get_secret, naver_login_url, naver_token_request, facebook_login_url, facebook_token_request
 
 
 def login_view(request):
@@ -18,14 +18,23 @@ def login_view(request):
         form = LoginForm()
 
     secret = get_secret()
-    request_url = naver_login_url(
+
+    naver_request_url = naver_login_url(
         client_id=secret['NAVER_CLIENT_ID'],
         redirect_url='http://localhost:8000/naver-login',
         state='RANDOM_STATE'
     )
+
+    facebook_request_url = facebook_login_url(
+        client_id=secret['FACEBOOK_CLIENT_ID'],
+        redirect_url='http://localhost:8000/facebook-login',
+        state='RANDOM_STATE'
+    )
+
     context = {
         'login_form': form,
-        'request_url': request_url
+        'naver_request_url': naver_request_url,
+        'facebook_request_url': facebook_request_url,
     }
     return render(request, 'members/login.html', context)
 
@@ -47,10 +56,27 @@ def naver_login_view(request):
         state=state
     )
 
-    id = response.json()['response']['id']
-    user = User.objects.get(username=id)
+    user = User.objects.get(username=response.json()['response']['id'])
     login(request, user)
     return redirect('todos:todo-list')
+
+
+def facebook_login_view(request):
+    code = request.GET['code']
+
+    secret = get_secret()
+
+    response = facebook_token_request(
+        client_id=secret['FACEBOOK_CLIENT_ID'],
+        client_secret_key=secret['FACEBOOK_CLIENT_SECRET_KEY'],
+        redirect_uri='http://localhost:8000/facebook-login',
+        code=code
+    )
+
+    user = User.objects.get(username=response.json()['id'])
+    login(request, user)
+    return redirect('todos:todo-list')
+
 
 
 def signup_view(request):
@@ -65,15 +91,22 @@ def signup_view(request):
         form = SignupForm()
 
     secret = get_secret()
-    request_url = naver_login_url(
+    naver_request_url = naver_login_url(
         client_id=secret['NAVER_CLIENT_ID'],
         redirect_url='http://localhost:8000/members/naver-signup',
         state='RANDOM_STATE'
     )
 
+    facebook_request_url = facebook_login_url(
+        client_id=secret['FACEBOOK_CLIENT_ID'],
+        redirect_url='http://localhost:8000/members/facebook-signup',
+        state='RANDOM_STATE'
+    )
+
     context = {
         'signup_form': form,
-        'request_url': request_url
+        'naver_request_url': naver_request_url,
+        'facebook_request_url': facebook_request_url
     }
     return render(request, 'members/signup.html', context)
 
@@ -98,6 +131,28 @@ def naver_signup_view(request):
         name=name,
         type='N'
 
+    )
+
+    login(request, user)
+    return redirect('todos:todo-list')
+
+
+def facebook_signup_view(request):
+    code = request.GET['code']
+
+    secret = get_secret()
+
+    response = facebook_token_request(
+        client_id=secret['FACEBOOK_CLIENT_ID'],
+        client_secret_key=secret['FACEBOOK_CLIENT_SECRET_KEY'],
+        redirect_uri='http://localhost:8000/members/facebook-signup',
+        code=code
+    )
+
+    user = User.objects.create_user(
+        username=response.json()['id'],
+        name=response.json()['name'],
+        type='F',
     )
 
     login(request, user)
