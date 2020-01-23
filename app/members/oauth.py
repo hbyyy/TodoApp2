@@ -1,10 +1,15 @@
 import json
 import os
+import requests
 from urllib.parse import urlunparse, urlparse, urlencode
 
-import requests
 
 from config.settings import BASE_DIR
+
+
+def get_secret():
+    with open(os.path.join(BASE_DIR, 'secrets.json'), 'r') as secret_json:
+        return json.load(secret_json)
 
 
 def naver_login_url(client_id, redirect_url, state):
@@ -20,11 +25,6 @@ def naver_login_url(client_id, redirect_url, state):
         query='&'.join([f'{key}={value}' for key, value in url_params.items()])
     )
     return url
-
-
-def get_secret():
-    with open(os.path.join(BASE_DIR, 'secrets.json'), 'r') as secret_json:
-        return json.load(secret_json)
 
 
 def naver_token_request(client_id, client_secret_key, code, state):
