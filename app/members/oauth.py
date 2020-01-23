@@ -4,11 +4,10 @@ from urllib.parse import urlunparse, urlparse, urlencode
 
 import requests
 
-from config.settings import BASE_DIR
 
 
 def get_secret():
-    with open(os.path.join(BASE_DIR, 'secrets.json'), 'r') as secret_json:
+    with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'secrets.json'), 'r') as secret_json:
         return json.load(secret_json)
 
 

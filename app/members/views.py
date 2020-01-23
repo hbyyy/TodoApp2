@@ -21,13 +21,13 @@ def login_view(request):
 
     naver_request_url = naver_login_url(
         client_id=secret['NAVER_CLIENT_ID'],
-        redirect_url='http://localhost:8000/naver-login',
+        redirect_url='http://13.125.186.75/naver-login',
         state='RANDOM_STATE'
     )
 
     facebook_request_url = facebook_login_url(
         client_id=secret['FACEBOOK_CLIENT_ID'],
-        redirect_url='http://localhost:8000/facebook-login',
+        redirect_url='http://13.125.186.75/facebook-login',
         state='RANDOM_STATE'
     )
 
@@ -69,7 +69,7 @@ def facebook_login_view(request):
     response = facebook_token_request(
         client_id=secret['FACEBOOK_CLIENT_ID'],
         client_secret_key=secret['FACEBOOK_CLIENT_SECRET_KEY'],
-        redirect_uri='http://localhost:8000/facebook-login',
+        redirect_uri='http://13.125.186.75/facebook-login',
         code=code
     )
 
@@ -93,13 +93,13 @@ def signup_view(request):
     secret = get_secret()
     naver_request_url = naver_login_url(
         client_id=secret['NAVER_CLIENT_ID'],
-        redirect_url='http://localhost:8000/members/naver-signup',
+        redirect_url='http://13.125.186.75/members/naver-signup',
         state='RANDOM_STATE'
     )
 
     facebook_request_url = facebook_login_url(
         client_id=secret['FACEBOOK_CLIENT_ID'],
-        redirect_url='http://localhost:8000/members/facebook-signup',
+        redirect_url='http://13.125.186.75/members/facebook-signup',
         state='RANDOM_STATE'
     )
 
@@ -145,7 +145,7 @@ def facebook_signup_view(request):
     response = facebook_token_request(
         client_id=secret['FACEBOOK_CLIENT_ID'],
         client_secret_key=secret['FACEBOOK_CLIENT_SECRET_KEY'],
-        redirect_uri='http://localhost:8000/members/facebook-signup',
+        redirect_uri='http://13.125.186.75/members/facebook-signup',
         code=code
     )
 
