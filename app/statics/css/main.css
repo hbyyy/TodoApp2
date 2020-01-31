@@ -1,5 +1,17 @@
 p.todo-content {
-    font-size: 1.5rem;
+    display: inline;
+}
+
+p.todo-hi {
+    font-size: 3.0rem;
+}
+
+p.todo-md {
+    font-size: 2.0rem;
+}
+
+p.todo-lo {
+    font-size: 1.0rem;
 }
 
 span.todo-time{

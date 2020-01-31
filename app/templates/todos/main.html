@@ -12,25 +12,7 @@
         <h4>id : {{ request.user }}</h4>
         <form action="{% url 'todos:todo-create' %}" method="post">
             {% csrf_token %}
-            {#            <div class="form-row">#}
-            {#                <div class="col-1 text-center">#}
-            {#                    <label for="Content" class="col-form-label col-form-label-lg">할일</label>#}
-            {#                </div>#}
-            {#                <div class="col-8">#}
-            {#                    <input id="Content" type="text" class="form-control" name="content">#}
-            {#                </div>#}
-            {#                <div class="col-1">#}
-            {#                    <select class="custom-select" name="" id="PriorityChoice">#}
-            {#                        <option selected>선택</option>#}
-            {#                        <option value="HI">높음</option>#}
-            {#                        <option value="MD">보통</option>#}
-            {#                        <option value="LO">낮음</option>#}
-            {#                    </select>#}
-            {#                </div>#}
-            {#                <div class="col-2">#}
-            {#                    <button type="submit" class="btn btn-primary col">작성</button>#}
-            {#                </div>#}
-            {#            </div>#}
+
             <div class="form-row">
                 <div class="col-lg-1 col-md-2 col-sm-2 text-center">
                     <label for="id_content" class="col-form-label col-form-label-lg">할일</label>
@@ -46,22 +28,66 @@
                 </div>
             </div>
         </form>
-        <div class="d-flex align-items-baseline mt-3 mb-3">
-            <h2 class="d-inline col-lg-2 col-md-4 col-sm-6">오늘 할 일</h2>
-            <span class="todo-time text-secondary">{{ time | date:"Y년 n월 j일" }}</span>
+        <div class="notdone">
+            <div class="d-flex align-items-baseline mt-3 mb-3">
+                <h2 class="d-inline col-lg-2 col-md-4 col-sm-6">오늘 할 일</h2>
+                <span class="todo-time text-secondary">{{ time | date:"Y년 n월 j일" }}</span>
+            </div>
+            {% for todo in todos_not_finish %}
+
+                <div class="d-flex align-items-baseline mb-3 mt-3">
+                    <div class="col-1 text-center">
+                        <span class="todo-count">{{ forloop.counter }}</span>
+                    </div>
+                    <div class="col-10">
+
+                        <p class="todo-content {% if todo.priority == 'HI' %}
+                        todo-hi {% elif todo.priority == 'MD'%}
+                        todo-md {% else %}
+                        todo-lo
+                        {% endif %}">{{ todo.content }}</p>
+                        <span class="todo-time text-secondary">{{ todo.created_date | date:"A g시 i분" }}</span>
+                    </div>
+                    <div class="col-1">
+                        <form action="{% url 'todos:todo-finish' todo_id=todo.pk %}">
+                            <button class="btn btn-outline-primary" type="submit">완료</button>
+                        </form>
+                    </div>
+
+                </div>
+                <hr>
+
+            {% endfor %}
         </div>
-        {% for todo in todos %}
+        <div class="isdone mt-5">
+            <div class="d-flex align-items-baseline mt-3 mb-3">
+                <h2 class="d-inline col-lg-2 col-md-4 col-sm-6">완료</h2>
+            </div>
+        </div>
+        {% for todo in todos_finish %}
             <div class="d-flex align-items-baseline mb-3 mt-3">
                 <div class="col-1 text-center">
-                    <span class="todo-count">{{ forloop.counter}}</span>
+                    <span class="todo-count">{{ forloop.counter }}</span>
                 </div>
-                <div class="col-7">
-                    <p class="todo-content d-inline">{{ todo.content }}</p>
+                <div class="col-10">
+                    <p class="todo-content {% if todo.priority == 'HI' %}
+                        todo-hi {% elif todo.priority == 'MD'%}
+                        todo-md {% else %}
+                        todo-lo
+                        {% endif %}">{{ todo.content }}</p>
                     <span class="todo-time text-secondary">{{ todo.created_date | date:"A g시 i분" }}</span>
+                </div>
+                <div class="col-1">
+                    <form action="{% url 'todos:todo-cancel' todo_id=todo.pk %}">
+                        <button class="btn btn-outline-danger" type="submit">취소</button>
+                    </form>
                 </div>
 
             </div>
             <hr>
+
         {% endfor %}
+
     </div>
+
 {% endblock %}
