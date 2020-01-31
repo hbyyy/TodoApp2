@@ -23,10 +23,12 @@ poetry export -f requirements.txt > requirements.txt
 echo "=====================서버에 secrets.json 파일 전달========================"
 scp -i ${IDENTIFY_FILE} -r $HOME/projects/wps12th/djangoProject/Todoapp2/app/secrets.json ${TARGET}:/home/ubuntu
 # docker image 업데이트
+echo "=====================docker image 최신화 ========================"
 docker build -t lloasd33/todos -f Dockerfile .
 # dockerhub에 push
 docker push lloasd33/todos
 #서버에서 docker 이미지 받아오기
+echo "=====================서버에서 docker 이미지를 최신화========================"
 ${SSH_CMD} -C 'docker pull lloasd33/todos'
 #기존 screen 닫기, 새 스크린 켜기
 ${SSH_CMD} -C 'screen -X -S Todoapprun quit'
@@ -34,6 +36,8 @@ ${SSH_CMD} -C 'screen -S Todoapprun -d -m'
 
 #서버에서 docker 이미지 받아오기
 # container run
+echo "=====================기존 container를 끄고 새로운 컨테이너 켜기========================"
+${SSH_CMD} -C 'docker stop todos'
 ${SSH_CMD} -C 'screen -r Todoapprun -X stuff "docker run --rm -it -p 80:8000 --name=todos lloasd33/todos /bin/bash\n"'
 echo '=====================bash를 실행중인 container에 HOST의 secrets.json을 복사====================='
 echo "${SSH_CMD} -C 'docker cp ~/secrets.json todos:/src/Todoapp/app/'"
