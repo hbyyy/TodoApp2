@@ -1,1 +1,7 @@
 app/secrets.json
+deploy.sh
+Dockerfile
+.idea
+.gitignore
+.git
+README.md
