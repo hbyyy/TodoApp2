@@ -5,6 +5,8 @@ RUN             apt -y install nginx
 COPY            ./requirements.txt /tmp/
 RUN             pip install -r /tmp/requirements.txt
 
-COPY            . /src/Todoapp
-WORKDIR         /src/Todoapp/app
+COPY            . /srv/Todoapp
+WORKDIR         /srv/Todoapp/app
 
+RUN             mkdir /var/log/gunicorn
+RUN             cp /srv/Todoapp/.config/todos.nginx /etc/nginx/sites-enabled/
