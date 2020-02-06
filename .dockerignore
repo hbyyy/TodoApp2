@@ -9,3 +9,4 @@ deploy-server.py
 pyproject.toml
 poetry.lock
 app/db.sqlite3
+/.cert
