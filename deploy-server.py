@@ -41,7 +41,9 @@ def server_pull_run():
     print('============================server_pull_run========================================')
     ssh_run(f'docker stop todos')
     ssh_run(f'docker pull lloasd33/todos')
-    ssh_run(f'docker run --rm -it -d -p 80:80 --name todos lloasd33/todos /bin/bash')
+    ssh_run('''docker run --rm -it -d -p 80:80 -p 443:443\
+     --name todos -v /etc/letsencrypt:/etc/letsencrypt\
+      lloasd33/todos /bin/bash''')
 
 
 def copy_secret():

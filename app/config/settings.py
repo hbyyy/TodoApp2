@@ -37,12 +37,14 @@ SECRET_JSON_FILE = get_secret()
 SECRET_KEY = SECRET_JSON_FILE['DJANGO_SECRET_KEY']
 AUTH_USER_MODEL = 'members.User'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '13.125.186.75',
+    'hbyyytodo.xyz',
+    'www.hbyyytodo.xyz',
 
 ]
 

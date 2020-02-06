@@ -1,15 +1,34 @@
 server {
     listen 80;
-
-    server_name 13.125.186.75;
-
+    server_name hbyyytodo.xyz www.hbyyytodo.xyz
     charset utf-8;
+
+
+    location /.well-known/acme-challenge/ {
+        alias           /srv/Todoapp/.cert/;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name hbyyytodo.xyz www.hbyyytodo.xyz;
+    charset utf-8;
+
+    ssl on;
+    ssl_certificate     /etc/letsencrypt/live/hbyyytodo.xyz/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/hbyyytodo.xyz/privkey.pem;
+
 
     location /static/ {
             root /srv/Todoapp/app;
         }
 
     location / {
+        include         /etc/nginx/proxy_params;
         proxy_pass      http://unix:/run/todos.sock;
     }
 }

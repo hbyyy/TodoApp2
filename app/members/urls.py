@@ -7,7 +7,7 @@ app_name = 'members'
 urlpatterns = [
     path('signup/', signup_view, name='signup'),
     path('logout/', logout_view, name='logout'),
-    path('naver-signup', naver_signup_view, name='naver_signup'),
-    path('facebook-signup', facebook_signup_view, name='facebook_signup'),
+    path('naver-signup/', naver_signup_view, name='naver_signup'),
+    path('facebook-signup/', facebook_signup_view, name='facebook_signup'),
 
 ]
