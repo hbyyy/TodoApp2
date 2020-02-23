@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from . import settings
 from members.views import login_view, naver_login_view, facebook_login_view
 
 urlpatterns = [
@@ -26,3 +27,13 @@ urlpatterns = [
     path('members/', include('members.urls')),
     path('todos/', include('todos.urls'))
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+
+        # For django versions before 2.0:
+        # url(r'^__debug__/', include(debug_toolbar.urls)),
+
+    ] + urlpatterns
